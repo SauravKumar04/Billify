@@ -46,12 +46,12 @@ const Landing = () => {
   return (
     <main className="min-h-screen">
       <header className="border-b border-[color:var(--line)] bg-[color:var(--surface)]/85 backdrop-blur">
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
           <div className="flex items-center gap-2">
             <img
               src="/billifylogo.png"
               alt="Billify logo"
-              className="h-11 w-auto max-w-22 rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface-2)] object-contain px-2"
+              className="h-9 w-auto max-w-20 rounded-xl sm:h-11 sm:rounded-2xl border border-[color:var(--line)] bg-[color:var(--surface-2)] object-contain px-2"
             />
             <div>
               <h1 className="text-xl font-semibold tracking-tight text-[color:var(--ink)]"><span className="brand-word">Billify</span></h1>
@@ -87,7 +87,7 @@ const Landing = () => {
           <p className="mb-3 neo-pill">
             Micro SaaS for Freelancers
           </p>
-          <h2 className="text-4xl font-semibold tracking-tight text-[color:var(--ink)] sm:text-5xl">
+          <h2 className="text-[2rem] font-semibold leading-[1.1] tracking-tight text-[color:var(--ink)] sm:text-5xl">
             Professional invoicing with a bold, neon-finance workflow.
           </h2>
           <p className="mt-4 max-w-xl text-base text-[color:var(--muted)]">
