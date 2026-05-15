@@ -1,42 +1,16 @@
-const nodemailer = require("nodemailer");
+const { google } = require("googleapis");
 
-const buildTransportConfig = () => {
-  const host = process.env.SMTP_HOST;
-  const port = Number(process.env.SMTP_PORT || 465);
+const OAuth2 = google.auth.OAuth2;
 
-  const secure =
-    String(process.env.SMTP_SECURE || "true") === "true";
+const oauth2Client = new OAuth2(
+  process.env.GOOGLE_CLIENT_ID,
+  process.env.GOOGLE_CLIENT_SECRET,
+  "https://developers.google.com/oauthplayground"
+);
 
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASS;
-
-  if (!host || host === "smtp.example.com") {
-    throw new Error("SMTP_HOST is not configured correctly");
-  }
-
-  if (!user || !pass) {
-    throw new Error("SMTP_USER or SMTP_PASS is missing");
-  }
-
-  return {
-    host,
-    port,
-    secure,
-
-    auth: {
-      user,
-      pass,
-    },
-
-    connectionTimeout: 10000,
-    greetingTimeout: 10000,
-    socketTimeout: 10000,
-
-    tls: {
-      rejectUnauthorized: false,
-    },
-  };
-};
+oauth2Client.setCredentials({
+  refresh_token: process.env.GOOGLE_REFRESH_TOKEN,
+});
 
 const sendInvoiceEmail = async ({
   to,
@@ -45,55 +19,56 @@ const sendInvoiceEmail = async ({
   pdfBuffer,
   subject,
   text,
-  includeAttachment = Boolean(pdfBuffer),
 }) => {
-  const resolvedSubject =
-    subject || `Invoice from ${freelancerName} via Billify`;
-
-  const resolvedText =
-    text ||
-    `Please find attached invoice ${invoiceNumber} from ${freelancerName}.`;
-
   try {
-    console.log("Creating transporter...");
+    const gmail = google.gmail({
+      version: "v1",
+      auth: oauth2Client,
+    });
 
-    const transporter = nodemailer.createTransport(
-      buildTransportConfig()
-    );
+    const mail = [
+      `From: Billify <${process.env.EMAIL_FROM}>`,
+      `To: ${to}`,
+      `Subject: ${
+        subject || `Invoice from ${freelancerName} via Billify`
+      }`,
+      "MIME-Version: 1.0",
+      'Content-Type: multipart/mixed; boundary="foo_bar"',
+      "",
+      "--foo_bar",
+      'Content-Type: text/plain; charset="UTF-8"',
+      "",
+      text ||
+        `Please find attached invoice ${invoiceNumber} from ${freelancerName}.`,
+      "",
+      "--foo_bar",
+      'Content-Type: application/pdf; name="invoice.pdf"',
+      "Content-Transfer-Encoding: base64",
+      'Content-Disposition: attachment; filename="invoice.pdf"',
+      "",
+      pdfBuffer.toString("base64"),
+      "",
+      "--foo_bar--",
+    ].join("\n");
 
-    console.log("Verifying SMTP connection...");
+    const encodedMessage = Buffer.from(mail)
+      .toString("base64")
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/, "");
 
-    await transporter.verify();
-
-    console.log("SMTP VERIFIED");
-
-    const result = await transporter.sendMail({
-      from: process.env.EMAIL_FROM || process.env.SMTP_USER,
-
-      to,
-
-      subject: resolvedSubject,
-
-      text: resolvedText,
-
-      attachments:
-        includeAttachment && pdfBuffer
-          ? [
-              {
-                filename: `${invoiceNumber}.pdf`,
-                content: pdfBuffer,
-                contentType: "application/pdf",
-              },
-            ]
-          : [],
+    const result = await gmail.users.messages.send({
+      userId: "me",
+      requestBody: {
+        raw: encodedMessage,
+      },
     });
 
     console.log("EMAIL SENT SUCCESSFULLY");
 
-    return result;
+    return result.data;
   } catch (error) {
-    console.error("FULL NODEMAILER ERROR:", error);
-
+    console.error("GMAIL API ERROR:", error);
     throw error;
   }
 };
