@@ -20,13 +20,13 @@ const drawHeader = (doc, invoice, user) => {
   const fallbackLogo = path.join(__dirname, "..", "..", "client", "public", "billifylogo.png");
   const logoPath = user.logoUrl ? `.${user.logoUrl}` : fallbackLogo;
 
-  if (logoPath && fs.existsSync(logoPath)) {
-    try {
-      doc.image(logoPath, 50, 30, { fit: [120, 48], align: "left", valign: "center" });
-    } catch (error) {
-      // Skip unsupported image formats to avoid breaking PDF generation.
-    }
-  }
+  // if (logoPath && fs.existsSync(logoPath)) {
+  //   try {
+  //     doc.image(logoPath, 50, 30, { fit: [120, 48], align: "left", valign: "center" });
+  //   } catch (error) {
+  //     // Skip unsupported image formats to avoid breaking PDF generation.
+  //   }
+  // }
 
   doc.fontSize(18).fillColor(COLORS.ink).text("Billify", 125, 48);
   doc.fontSize(10).fillColor(COLORS.muted).text("Invoice", 50, 98);
