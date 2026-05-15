@@ -2,8 +2,11 @@ const nodemailer = require("nodemailer");
 
 const buildTransportConfig = () => {
   const host = process.env.SMTP_HOST;
-  const port = Number(process.env.SMTP_PORT || 587);
-  const secure = String(process.env.SMTP_SECURE || "false") === "true";
+  const port = Number(process.env.SMTP_PORT || 465);
+
+  const secure =
+    String(process.env.SMTP_SECURE || "true") === "true";
+
   const user = process.env.SMTP_USER;
   const pass = process.env.SMTP_PASS;
 
@@ -19,7 +22,19 @@ const buildTransportConfig = () => {
     host,
     port,
     secure,
-    auth: { user, pass },
+
+    auth: {
+      user,
+      pass,
+    },
+
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 10000,
+
+    tls: {
+      rejectUnauthorized: false,
+    },
   };
 };
 
@@ -34,6 +49,7 @@ const sendInvoiceEmail = async ({
 }) => {
   const resolvedSubject =
     subject || `Invoice from ${freelancerName} via Billify`;
+
   const resolvedText =
     text ||
     `Please find attached invoice ${invoiceNumber} from ${freelancerName}.`;
@@ -41,7 +57,9 @@ const sendInvoiceEmail = async ({
   try {
     console.log("Creating transporter...");
 
-    const transporter = nodemailer.createTransport(buildTransportConfig());
+    const transporter = nodemailer.createTransport(
+      buildTransportConfig()
+    );
 
     console.log("Verifying SMTP connection...");
 
@@ -51,15 +69,20 @@ const sendInvoiceEmail = async ({
 
     const result = await transporter.sendMail({
       from: process.env.EMAIL_FROM || process.env.SMTP_USER,
+
       to,
+
       subject: resolvedSubject,
+
       text: resolvedText,
+
       attachments:
         includeAttachment && pdfBuffer
           ? [
               {
                 filename: `${invoiceNumber}.pdf`,
                 content: pdfBuffer,
+                contentType: "application/pdf",
               },
             ]
           : [],
