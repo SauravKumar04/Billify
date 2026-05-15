@@ -147,7 +147,7 @@ const Invoices = () => {
       setReminderSubject(data?.data?.subject || `Payment reminder: ${invoice.invoiceNumber}`);
       setReminderMessage(data?.data?.reminder || "");
     } catch {
-      toast.error("Failed to generate AI reminder");
+      toast.error("Failed to generate reminder");
       setReminderInvoice(null);
     } finally {
       setReminderLoading(false);
@@ -177,7 +177,7 @@ const Invoices = () => {
         message: reminderMessage,
         includePdf: false,
       });
-      toast.success("AI reminder sent successfully");
+      toast.success("Reminder sent successfully");
       setReminderInvoice(null);
       setReminderMessage("");
       setReminderSubject("");
@@ -195,7 +195,7 @@ const Invoices = () => {
           <h2 className="flex items-center gap-2 text-2xl font-semibold tracking-tight text-[color:var(--ink)]">
             <RiFileList3Line className="text-[color:var(--muted)]" /> Invoice List
           </h2>
-          <p className="mt-1 text-sm text-[color:var(--muted)]">Track payment state, download, email invoices, and send AI reminders.</p>
+          <p className="mt-1 text-sm text-[color:var(--muted)]">Track payment state, download, email invoices, and send reminders.</p>
         </div>
         <div className="relative w-full sm:w-64">
           <RiSearchLine className="pointer-events-none absolute left-3 top-3 text-[color:var(--muted)]" />
@@ -294,7 +294,7 @@ const Invoices = () => {
           <div className="w-full max-w-2xl rounded-3xl border border-[color:var(--line)] bg-[color:var(--surface)] p-5 shadow-xl sm:p-6">
             <div className="flex flex-col gap-3 border-b border-[color:var(--line)] pb-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
-                <h3 className="text-lg font-semibold tracking-tight text-[color:var(--ink)]">AI Payment Reminder</h3>
+                <h3 className="text-lg font-semibold tracking-tight text-[color:var(--ink)]">Payment Reminder</h3>
                 <p className="mt-1 text-sm text-[color:var(--muted)]">
                   {reminderInvoice.invoiceNumber} · {reminderInvoice.client?.name || "Client"}
                 </p>
@@ -326,7 +326,7 @@ const Invoices = () => {
                   value={reminderMessage}
                   onChange={(event) => setReminderMessage(event.target.value)}
                   className="field-input"
-                  placeholder={reminderLoading ? "Generating AI reminder..." : "Reminder message"}
+                  placeholder={reminderLoading ? "Generating reminder..." : "Reminder message"}
                 />
               </div>
             </div>

@@ -16,7 +16,7 @@ import Portal from "./pages/Portal";
 
 const ProtectedRoute = () => {
   const { loading, isAuthenticated } = useAuth();
-  if (loading) return <p className="p-6 text-sm text-[color:var(--muted)]">Loading Billify...</p>;
+  if (loading) return <p className="p-6 text-sm text-[color:var(--muted)]">Preparing your workspace...</p>;
   if (!isAuthenticated) return <Navigate to="/login" replace />;
   return <Outlet />;
 };

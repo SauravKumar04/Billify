@@ -31,7 +31,7 @@ const ConfirmModal = ({
             {cancelText}
           </button>
           <button type="button" onClick={onConfirm} className={confirmClassName} disabled={loading}>
-            {loading ? "Please wait..." : confirmText}
+            {loading ? "Processing..." : confirmText}
           </button>
         </div>
       </div>

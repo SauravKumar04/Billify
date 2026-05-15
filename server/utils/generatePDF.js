@@ -214,7 +214,6 @@ const generatePDF = (invoice, user) =>
       doc.on("data", (chunk) => chunks.push(chunk));
 
       doc.on("end", () => {
-        console.log("PDF GENERATED");
         resolve(Buffer.concat(chunks));
       });
 

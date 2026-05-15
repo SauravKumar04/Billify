@@ -4,7 +4,7 @@ const OAuth2 = google.auth.OAuth2;
 
 const oauth2Client = new OAuth2(
   process.env.GOOGLE_CLIENT_ID,
-  process.env.GOOGLE_CLIENT_SECRET
+  process.env.GOOGLE_CLIENT_SECRET,
 );
 
 oauth2Client.setCredentials({
@@ -28,9 +28,7 @@ const sendInvoiceEmail = async ({
     const mail = [
       `From: Billify <${process.env.EMAIL_FROM}>`,
       `To: ${to}`,
-      `Subject: ${
-        subject || `Invoice from ${freelancerName} via Billify`
-      }`,
+      `Subject: ${subject || `Invoice from ${freelancerName} via Billify`}`,
       "MIME-Version: 1.0",
       'Content-Type: multipart/mixed; boundary="foo_bar"',
       "",
@@ -62,8 +60,6 @@ const sendInvoiceEmail = async ({
         raw: encodedMessage,
       },
     });
-
-    console.log("EMAIL SENT SUCCESSFULLY");
 
     return result.data;
   } catch (error) {

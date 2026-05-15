@@ -86,7 +86,7 @@ const Register = () => {
               disabled={isSubmitting}
               className="btn-primary w-full"
             >
-              {isSubmitting ? "Please wait..." : "Register"}
+              {isSubmitting ? "Creating account..." : "Register"}
             </button>
           </form>
           <p className="mt-4 text-sm text-[color:var(--muted)]">

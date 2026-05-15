@@ -71,7 +71,7 @@ const Login = () => {
               disabled={isSubmitting}
               className="btn-primary w-full"
             >
-              {isSubmitting ? "Please wait..." : "Login"}
+              {isSubmitting ? "Signing in..." : "Login"}
             </button>
           </form>
           <p className="mt-4 text-sm text-[color:var(--muted)]">

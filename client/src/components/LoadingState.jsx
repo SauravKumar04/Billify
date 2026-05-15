@@ -17,7 +17,7 @@ const LoadingState = ({ label = "Loading...", variant = "page" }) => {
         </span>
         <div>
           <p className="text-sm font-semibold text-[color:var(--ink)]">{label}</p>
-          <p className="text-xs text-[color:var(--muted)]">Hang tight, polishing the details.</p>
+          <p className="text-xs text-[color:var(--muted)]">Fetching the latest data.</p>
         </div>
       </div>
       {variant === "card" ? <div className="hidden h-10 w-24 rounded-full bg-[color:var(--surface-3)] sm:block" /> : null}

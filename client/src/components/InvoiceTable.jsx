@@ -29,8 +29,8 @@ const InvoiceTable = ({ invoices, onMarkPaid, onDownload, onEmail, onView, onDel
               <button type="button" onClick={() => onView(invoice._id)} className="btn-muted px-2 py-2 text-xs">
                 <RiEyeLine className="text-base" />
               </button>
-              <button type="button" onClick={() => onAiReminder(invoice)} className="btn-muted px-2 py-2 text-[11px] font-semibold">
-                AI
+              <button type="button" onClick={() => onAiReminder(invoice)} className="btn-muted px-2 py-2 text-[11px] font-semibold" title="Create reminder">
+                Remind
               </button>
               <button type="button" onClick={() => onDownload(invoice._id, invoice.invoiceNumber)} className="btn-primary px-2 py-2 text-xs">
                 <RiDownloadLine className="text-base" />
@@ -102,8 +102,8 @@ const InvoiceTable = ({ invoices, onMarkPaid, onDownload, onEmail, onView, onDel
                       </button>
                     );
                   })()}
-                  <button type="button" onClick={() => onAiReminder(invoice)} className="btn-muted px-3 py-2 text-xs font-semibold" title="Generate AI reminder">
-                    AI
+                  <button type="button" onClick={() => onAiReminder(invoice)} className="btn-muted px-3 py-2 text-xs font-semibold" title="Create reminder">
+                    Reminder
                   </button>
                   <button type="button" onClick={() => onDownload(invoice._id, invoice.invoiceNumber)} className="btn-primary px-2.5 py-2">
                     <RiDownloadLine className="text-base" />
