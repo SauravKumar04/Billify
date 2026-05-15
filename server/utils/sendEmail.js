@@ -32,14 +32,24 @@ const sendInvoiceEmail = async ({
   text,
   includeAttachment = Boolean(pdfBuffer),
 }) => {
-  const resolvedSubject = subject || `Invoice from ${freelancerName} via Billify`;
+  const resolvedSubject =
+    subject || `Invoice from ${freelancerName} via Billify`;
   const resolvedText =
-    text || `Please find attached invoice ${invoiceNumber} from ${freelancerName}.`;
+    text ||
+    `Please find attached invoice ${invoiceNumber} from ${freelancerName}.`;
 
   try {
+    console.log("Creating transporter...");
+
     const transporter = nodemailer.createTransport(buildTransportConfig());
 
-    return await transporter.sendMail({
+    console.log("Verifying SMTP connection...");
+
+    await transporter.verify();
+
+    console.log("SMTP VERIFIED");
+
+    const result = await transporter.sendMail({
       from: process.env.EMAIL_FROM || process.env.SMTP_USER,
       to,
       subject: resolvedSubject,
@@ -54,16 +64,14 @@ const sendInvoiceEmail = async ({
             ]
           : [],
     });
+
+    console.log("EMAIL SENT SUCCESSFULLY");
+
+    return result;
   } catch (error) {
-    if (error.code === "EAUTH") {
-      throw new Error("SMTP authentication failed. Verify SMTP_USER and app password");
-    }
+    console.error("FULL NODEMAILER ERROR:", error);
 
-    if (["ECONNECTION", "ETIMEDOUT", "ESOCKET"].includes(error.code)) {
-      throw new Error("Could not connect to SMTP server. Check SMTP_HOST, SMTP_PORT, and SMTP_SECURE");
-    }
-
-    throw new Error(error.message || "Failed to send email");
+    throw error;
   }
 };
 
