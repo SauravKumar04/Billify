@@ -4,8 +4,7 @@ const OAuth2 = google.auth.OAuth2;
 
 const oauth2Client = new OAuth2(
   process.env.GOOGLE_CLIENT_ID,
-  process.env.GOOGLE_CLIENT_SECRET,
-  "https://developers.google.com/oauthplayground"
+  process.env.GOOGLE_CLIENT_SECRET
 );
 
 oauth2Client.setCredentials({
