@@ -2,6 +2,7 @@ import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Sidebar from "./components/Sidebar";
 import Navbar from "./components/Navbar";
+import LoadingState from "./components/LoadingState";
 import { useAuth } from "./context/useAuth";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -16,7 +17,7 @@ import Portal from "./pages/Portal";
 
 const ProtectedRoute = () => {
   const { loading, isAuthenticated } = useAuth();
-  if (loading) return <p className="p-6 text-sm text-[color:var(--muted)]">Preparing your workspace...</p>;
+  if (loading) return <LoadingState label="Preparing your workspace..." variant="page" />;
   if (!isAuthenticated) return <Navigate to="/login" replace />;
   return <Outlet />;
 };

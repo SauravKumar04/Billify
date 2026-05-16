@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { RiSettings3Line, RiUploadCloud2Line } from "react-icons/ri";
+import { Spinner } from "../components/LoadingState";
 import { updateProfile, uploadLogo } from "../api/authApi";
 import { useAuth } from "../context/useAuth";
 import usePageTitle from "../utils/usePageTitle";
@@ -57,20 +58,23 @@ const Settings = () => {
 
   return (
     <section className="shell-card p-5 sm:p-6">
-      <h2 className="flex items-center gap-2 text-2xl font-semibold tracking-tight text-[color:var(--ink)]">
-        <RiSettings3Line className="text-[color:var(--muted)]" /> Your Billify Profile
+      <h2 className="flex items-center gap-2 text-2xl font-semibold tracking-tight text-(--ink)">
+        <RiSettings3Line className="text-(--muted)" /> Your Billify Profile
       </h2>
-      <p className="mt-1 text-sm text-[color:var(--muted)]">Manage freelancer identity, GST details, and bank information.</p>
+      <p className="mt-1 text-sm text-(--muted)">Manage freelancer identity, GST details, and bank information.</p>
       <div className="mt-4 grid gap-6 lg:grid-cols-3">
         <div>
           {user?.logoUrl ? (
-            <img src={`${import.meta.env.VITE_SERVER_URL || "http://localhost:5000"}${user.logoUrl}`} alt="Billify logo" className="h-32 w-32 rounded-2xl border border-[color:var(--line)] object-cover" />
+            <img src={`${import.meta.env.VITE_SERVER_URL || "http://localhost:5000"}${user.logoUrl}`} alt="Billify logo" className="h-32 w-32 rounded-2xl border border-(--line) object-cover" />
           ) : (
-            <div className="flex h-32 w-32 items-center justify-center rounded-2xl border border-dashed border-[color:var(--line)] text-[color:var(--muted)]">No Logo</div>
+            <div className="flex h-32 w-32 items-center justify-center rounded-2xl border border-dashed border-(--line) text-(--muted)">No Logo</div>
           )}
-          <label className="btn-muted mt-3 inline-flex cursor-pointer">
+          <label className="btn-muted mt-3 inline-flex cursor-pointer items-center">
             <RiUploadCloud2Line className="text-base" />
-            {uploading ? "Uploading..." : "Upload Logo"}
+            <span className="ml-2 inline-flex items-center gap-2">
+              {uploading ? <Spinner size={16} glow inline /> : null}
+              <span>{uploading ? "Uploading..." : "Upload Logo"}</span>
+            </span>
             <input type="file" accept="image/*" className="hidden" onChange={onLogoChange} />
           </label>
         </div>

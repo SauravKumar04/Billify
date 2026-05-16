@@ -1,203 +1,527 @@
-# Billify
+# 🧾 Billify - Premium Invoicing for Freelancers
 
-Billify is a full-stack invoicing SaaS app for freelancers and small teams. It provides client management, invoice generation, analytics, PDF export, and email delivery in a clean dashboard workflow.
+> **Polished invoicing for independent professionals.** Clear invoicing that keeps payments, clients, and GST organized with a beautiful, responsive dashboard.
 
-## Tech Stack
+![Billify](https://img.shields.io/badge/Billify-v1.0-b7ff3c?style=flat-square&labelColor=0a0f14)
+![React](https://img.shields.io/badge/React-19.2.5-61dafb?style=flat-square&labelColor=0a0f14)
+![Node.js](https://img.shields.io/badge/Node.js-Express-68a063?style=flat-square&labelColor=0a0f14)
+![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-13aa52?style=flat-square&labelColor=0a0f14)
 
-- Frontend: React 19, Vite, Tailwind CSS, React Router v6, React Hook Form, Axios, Recharts, React Icons, React Hot Toast
-- Backend: Node.js, Express.js, MongoDB + Mongoose, JWT, Multer, Nodemailer, PDFKit
+---
 
-## Current Features
+## ✨ Key Features
 
-### Authentication and Account
+### 🔐 **Authentication & Account Management**
+- 🔑 **JWT-based authentication** with secure login & registration
+- 👤 **Complete profile management** - name, email, phone, GSTIN, address, bank details
+- 🏢 **Brand customization** - Upload and store your company logo via ImageKit
+- 💳 **Banking details** - Store account info, IFSC, bank name, and UPI ID
+- 🔒 **Protected routes** - Authenticated API endpoints & frontend route guards
 
-- Register and login with JWT-based auth
-- Protected API routes and authenticated frontend routes
-- Profile update support (name, email, phone, GSTIN, address)
-- Brand logo upload and storage
-- Bank details support (account name, account number, IFSC, bank name, UPI)
+### 👥 **Smart Client Management**
+- ➕ **Create clients** with complete contact & GST information
+- 📋 **Centralized directory** - View and manage all your clients in one place
+- ✏️ **Edit client details** - Keep information up-to-date
+- 🗑️ **Delete clients** - Remove clients when no longer needed
+- 🔍 **Quick search** - Find clients by name, email, or GST number
 
-### Client Management
+### 📄 **Advanced Invoicing**
+- 🎯 **Auto-numbered invoices** in clean `BILL-0001` format
+- ➕ **Dynamic line items** - Add multiple items per invoice with descriptions and amounts
+- 🧮 **Automatic GST calculations** - Subtotal, tax amount, and total computed automatically
+- 📊 **Status tracking** - Invoices marked as `paid`, `unpaid`, or `overdue`
+- ⚡ **Smart status updates** - Auto-transition to `overdue` based on due date
+- 🔎 **Advanced search** - Filter by invoice number, client name, email, or date range
+- ✅ **Mark as paid** - Quick payment status updates
+- 🗑️ **Delete invoices** - Remove unwanted records
 
-- Create client
-- List all user clients
-- Edit client details
-- Delete client
+### 📈 **Rich Dashboard Analytics**
+- 💰 **Revenue overview** - Total, paid, unpaid, and overdue amounts at a glance
+- 📅 **Month-wise analytics** - Revenue for selected month with breakdown
+- 📊 **Day-wise trend charts** - Visual representation of daily revenue patterns
+- 📉 **6-month trend analysis** - Long-term revenue tracking and forecasting
+- 🎯 **Payment split visualization** - Paid vs unpaid/overdue comparison
+- 🔝 **Key metrics** - Peak day, average invoice value, collection rate, open rate
+- 📱 **Responsive charts** - Beautiful Recharts integration for data visualization
 
-### Invoicing
+### 📥 **PDF & Email Features**
+- 🎨 **Brand-ready PDFs** - Your logo, colors, and details on every invoice
+- 💾 **Download PDFs** - Save invoices locally or share with clients
+- 📧 **Email invoices** - Send PDFs directly to clients via SMTP
+- 🔐 **Secure links** - Optional shareable portal links for clients
+- 🎁 **QR codes** - Generate UPI payment QR codes for easy mobile payments
+- 📦 **Batch operations** - Email multiple invoices efficiently
 
-- Create invoices with dynamic line items
-- Automatic invoice number generation in `BILL-0001` format
-- GST-based calculations (subtotal, GST amount, total)
-- Invoice listing with status filtering: `paid`, `unpaid`, `overdue`
-- Mark invoice as paid
-- Delete invoice
-- Search invoices by invoice number, client name, or client email
-- Auto-status update from `unpaid` to `overdue` based on due date
+### 🤖 **AI-Powered Features** (via Groq API)
+- 💬 **Smart payment reminders** - AI generates personalized reminder messages
+- 🎭 **Tone control** - Choose between `friendly`, `professional`, or `strict` tones
+- 👁️ **Preview & edit** - Review AI-generated content before sending
+- 🚀 **One-click send** - Send reminders immediately or save for later
+- 💡 **Context-aware** - Reminders reference specific invoice details
 
-### Dashboard Analytics
+### 🌐 **Client Portal**
+- 🔗 **Shareable links** - Send secure portal links to view invoices
+- 👁️ **Invoice viewing** - Clients can view invoice details and payment status
+- ✅ **Invoice acknowledgment** - Clients can confirm receipt
+- 💳 **UPI payment QR** - Generate QR codes for easy mobile payments
+- 🔐 **Token-based access** - Secure, time-limited access
 
-- Total invoices, paid invoices, unpaid/overdue invoices
-- Revenue for selected month
-- Day-wise trend for selected month
-- Revenue trend for last 6 months
-- Payment split view (paid vs unpaid/overdue)
-- Compact insight metrics: peak day, averages, collection/open rates
+### 🎨 **Beautiful UI/UX**
+- 🌙 **Dark theme optimized** - Premium dark UI with neon accent colors
+- ✨ **Smooth animations** - Framer-inspired transitions and interactions
+- 📱 **Fully responsive** - Works perfectly on mobile, tablet, and desktop
+- ♿ **Accessibility** - ARIA labels, keyboard navigation, semantic HTML
+- 🎭 **Loading states** - Spinners and skeletons for smooth UX
+- 🔔 **Toast notifications** - Real-time feedback with React Hot Toast
 
-### PDF and Email
+---
 
-- Generate invoice PDF from server
-- Download invoice PDF from UI
-- Email invoice with PDF attachment via SMTP
+## 🛠️ Tech Stack
 
-### AI Features
+### **Frontend** ⚡
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| **React** | 19.2.5 | UI library with hooks |
+| **Vite** | 8.0.9 | Lightning-fast build tool |
+| **Tailwind CSS** | 4.2.4 | Utility-first CSS framework |
+| **React Router** | 6.30.1 | Client-side routing |
+| **React Hook Form** | 7.56.4 | Efficient form handling |
+| **Axios** | 1.8.2 | HTTP client |
+| **Recharts** | 2.15.1 | React chart library |
+| **React Icons** | 5.5.0 | Icon library |
+| **React Hot Toast** | 2.5.2 | Toast notifications |
 
-- AI payment reminder generation with tone control: `friendly`, `professional`, `strict`
-- Reminder preview/edit flow in frontend before sending
+### **Backend** 🔧
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| **Node.js** | Latest | Runtime environment |
+| **Express.js** | 4.21.1 | Web framework |
+| **MongoDB** | Cloud | NoSQL database |
+| **Mongoose** | 8.8.1 | MongoDB ODM |
+| **JWT** | 9.0.2 | Authentication tokens |
+| **Bcryptjs** | 2.4.3 | Password hashing |
+| **Multer** | 1.4.5 | File upload handling |
+| **ImageKit** | 1.3.6 | Remote image storage |
+| **PDFKit** | 0.15.0 | PDF generation |
+| **QRCode** | 1.5.4 | QR code generation |
+| **Nodemailer** | Built-in | Email delivery |
+| **Groq** | API | AI reminder generation |
+| **CORS** | 2.8.5 | Cross-origin requests |
+| **Dotenv** | 16.4.5 | Environment variables |
 
-## Frontend Pages
+### **External Services**
+- 🗄️ **MongoDB Atlas** - Cloud database hosting
+- 📧 **Resend/SMTP** - Email delivery service
+- 🤖 **Groq API** - LLaMA AI for reminder generation
+- 📁 **ImageKit** - Cloud image storage & optimization
+- 🔐 **JWT** - Secure authentication tokens
 
-- Landing page
-- Login
-- Register
-- Dashboard
-- Clients
-- New Invoice
-- Invoices
-- Settings
+---
 
-## API Endpoints
+## 📊 Application Flow
 
-### Auth
+### **User Journey**
 
-- `POST /api/auth/register` Register user
-- `POST /api/auth/login` Login user
-- `GET /api/auth/me` Get current user
-- `PUT /api/auth/profile` Update profile
-- `POST /api/auth/profile/logo` Upload logo
+```
+┌─────────────────────────────────────────────────────────────┐
+│                                                             │
+│  Landing Page  ──→  Register/Login  ──→  Dashboard         │
+│       (Public)         (Auth)            (Protected)         │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+        ↓
+┌─────────────────────────────────────────────────────────────┐
+│  Dashboard Hub (Overview & Analytics)                       │
+│  ├─ Revenue metrics & trends                               │
+│  ├─ Quick invoice creation                                 │
+│  ├─ Payment status overview                                │
+│  └─ Navigation to all features                             │
+└─────────────────────────────────────────────────────────────┘
+        ├─────────────────┬──────────────────┬────────────────┐
+        ↓                 ↓                  ↓                ↓
+   ┌─────────┐      ┌──────────┐      ┌──────────┐      ┌─────────┐
+   │ Clients │      │ Invoices │      │ Settings │      │ New     │
+   ├─────────┤      ├──────────┤      ├──────────┤      │ Invoice │
+   │ • Create│      │ • Create │      │ • Update │      ├─────────┤
+   │ • View  │      │ • Search │      │ • Upload │      │ 1. Add  │
+   │ • Edit  │      │ • Filter │      │   Logo   │      │    Items│
+   │ • Delete│      │ • View   │      │ • Add    │      │ 2. Set  │
+   │         │      │ • Download       │   Bank   │      │    Due  │
+   │         │      │   PDFs   │      │   Details│      │    Date │
+   │         │      │ • Email  │      │ • Change │      │ 3. Save │
+   │         │      │ • Mark   │      │   Profile│      │ 4. Send │
+   │         │      │   Paid   │      │          │      │    PDF  │
+   └─────────┘      └──────────┘      └──────────┘      └─────────┘
+        ↓                 ↓                                  ↓
+    Client Data    Payment Reminders              Invoice Portal
+    Directory      (AI-Generated)                  (Client View)
+```
 
-### Clients
+### **Invoice Creation Flow**
 
-- `POST /api/clients` Create client
-- `GET /api/clients` List clients
-- `PUT /api/clients/:id` Update client
-- `DELETE /api/clients/:id` Delete client
+```
+New Invoice Page
+    ↓
+1️⃣  Select Client
+    ↓
+2️⃣  Add Line Items (Item, Description, Rate, Qty)
+    ↓
+3️⃣  Auto-Calculate GST (5%, 12%, 18%)
+    ↓
+4️⃣  Set Invoice Due Date
+    ↓
+5️⃣  Preview with GST breakdown
+    ↓
+6️⃣  Save Invoice (Auto-numbered: BILL-0001)
+    ↓
+7️⃣  Options:
+    ├─ 📥 Download PDF
+    ├─ 📧 Email to Client
+    ├─ 🔗 Share Portal Link
+    └─ ⏰ Set Payment Reminder (AI-Generated)
+```
 
-### Invoices
+### **Backend API Flow**
 
-- `POST /api/invoices` Create invoice
-- `GET /api/invoices` List invoices (supports status query)
-- `GET /api/invoices/:id` Get invoice by ID
-- `DELETE /api/invoices/:id` Delete invoice
-- `PATCH /api/invoices/:id/mark-paid` Mark invoice as paid
-- `GET /api/invoices/stats` Dashboard analytics (supports `month=YYYY-MM`)
+```
+Frontend Request → Express Middleware Chain
+    ↓
+├─ CORS Check
+├─ JSON Parser
+├─ Auth Middleware (if protected)
+│   └─ Verify JWT Token
+└─ Route Handler
+    ↓
+    ├─ Validate Request
+    ├─ MongoDB Query/Write
+    ├─ File Processing (if needed)
+    │   └─ PDFKit / ImageKit Upload
+    ├─ Email/Notification (if needed)
+    │   └─ Nodemailer / Groq API
+    └─ Return JSON Response
+        ↓
+Frontend Updates UI with Response
+```
 
-### PDF and Email
+---
 
-- `GET /api/pdf/:id` Generate and download invoice PDF
-- `POST /api/email/:id` Send invoice by email
+## 🚀 Getting Started
 
-### AI
+### **Prerequisites**
+- Node.js 16+ and npm/yarn
+- MongoDB Atlas account
+- Groq API key
+- SMTP credentials (Gmail, Resend, etc.)
+- ImageKit account (for logo storage)
 
-- `POST /api/ai/reminder/:invoiceId` Generate AI reminder (optionally send immediately)
+### **Installation**
 
-### Health
+1. **Clone the repository**
+```bash
+git clone https://github.com/yourusername/billify.git
+cd billify
+```
 
-- `GET /api/health` Server health check
-
-## Project Structure
-
-- `client/` React app
-- `server/` Express API
-- `.env.example` Example environment configuration
-
-## Setup
-
-1. Clone repository
-2. Copy `.env.example` to `.env` and fill all values
-3. Install server dependencies
-
+2. **Setup Backend**
 ```bash
 cd server
 npm install
+cp .env.example .env
+# Edit .env with your credentials
+npm run dev  # Starts on port 3002
 ```
 
-4. Install client dependencies
-
+3. **Setup Frontend**
 ```bash
 cd ../client
 npm install
+npm run dev  # Starts on port 5173
 ```
 
-5. Start backend
+4. **Access the app**
+- Frontend: `http://localhost:5173`
+- Backend API: `http://localhost:3002/api`
+- Health check: `http://localhost:3002/api/health`
 
-```bash
-cd ../server
-npm run dev
+---
+
+## 📋 API Endpoints
+
+### **Authentication** 🔐
+```http
+POST   /api/auth/register          # Register new user
+POST   /api/auth/login             # Login user
+GET    /api/auth/me                # Get current user
+PUT    /api/auth/profile           # Update profile
+POST   /api/auth/profile/logo      # Upload company logo
 ```
 
-6. Start frontend
-
-```bash
-cd ../client
-npm run dev
+### **Clients** 👥
+```http
+POST   /api/clients                # Create new client
+GET    /api/clients                # List all clients
+PUT    /api/clients/:id            # Update client
+DELETE /api/clients/:id            # Delete client
 ```
 
-## Environment Variables
-
-### Backend
-
-- `PORT` API port (default `5000`)
-- `MONGODB_URI` MongoDB connection string
-- `JWT_SECRET` JWT signing secret
-- `JWT_EXPIRES_IN` Token expiry (example: `7d`)
-- `CLIENT_URL` Frontend URL for CORS
-- `SMTP_HOST` SMTP host
-- `SMTP_PORT` SMTP port
-- `SMTP_SECURE` `true` for SSL, else `false`
-- `SMTP_USER` SMTP username
-- `SMTP_PASS` SMTP password
-- `EMAIL_FROM` Email sender label/address
-- `GROQ_API_KEY` Groq API key
-- `GROQ_MODEL` Optional Groq model (default: `llama-3.1-8b-instant`)
-
-### Frontend
-
-- `VITE_API_URL` API base URL
-- `VITE_SERVER_URL` Server base URL (used for uploaded assets)
-
-## Example AI API Responses
-
-### POST /api/ai/reminder/:invoiceId
-
-Request body:
-
-```json
-{
-	"tone": "professional"
-}
+### **Invoices** 📄
+```http
+POST   /api/invoices               # Create invoice
+GET    /api/invoices               # List invoices (filter by status)
+GET    /api/invoices/:id           # Get invoice details
+DELETE /api/invoices/:id           # Delete invoice
+PATCH  /api/invoices/:id/mark-paid # Mark as paid
+GET    /api/invoices/stats         # Dashboard analytics
 ```
 
-Response:
-
-```json
-{
-	"message": "AI reminder generated",
-	"data": {
-		"invoiceId": "...",
-		"clientEmail": "client@example.com",
-		"tone": "professional",
-		"subject": "Payment reminder: BILL-0012",
-		"reminder": "Hello John, this is a reminder...",
-		"sent": false
-	}
-}
+### **PDF & Email** 📧
+```http
+GET    /api/pdf/:id                # Download invoice PDF
+POST   /api/email/:id              # Email invoice to client
 ```
 
-## Minimal React Usage Example
+### **AI Reminders** 🤖
+```http
+POST   /api/ai/reminder/:invoiceId # Generate & send AI reminder
+```
 
-```jsx
-import { useState } from "react";
+### **Client Portal** 🌐
+```http
+GET    /api/portal/:token          # View invoice (public link)
+POST   /api/portal/:token/acknowledge    # Client acknowledges
+GET    /api/portal/:token/upi-qr   # Get UPI payment QR code
+```
+
+### **Health** 💚
+```http
+GET    /api/health                 # Server health check
+```
+
+---
+
+## 🌍 Environment Variables
+
+### **Backend (.env)**
+```env
+# Server
+PORT=3002
+NODE_ENV=development
+
+# Database
+MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/billify
+
+# Authentication
+JWT_SECRET=your_jwt_secret_key_here
+JWT_EXPIRES_IN=7d
+
+# CORS
+CLIENT_URL=http://localhost:5173
+
+# Email (SMTP)
+EMAIL_FROM=noreply@billify.com
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=your_email@gmail.com
+SMTP_PASS=your_app_password
+
+# AI (Groq)
+GROQ_API_KEY=gsk_xxxxx
+GROQ_MODEL=llama-3.1-8b-instant
+
+# Image Storage (ImageKit)
+IMAGEKIT_ID=your_imagekit_id
+IMAGEKIT_API_KEY=your_imagekit_api_key
+IMAGEKIT_API_SECRET=your_imagekit_api_secret
+IMAGEKIT_URL_ENDPOINT=https://ik.imagekit.io/your_account
+```
+
+### **Frontend (.env)**
+```env
+VITE_API_URL=http://localhost:3002
+VITE_SERVER_URL=http://localhost:3002
+```
+
+---
+
+## 📱 Pages & Routes
+
+| Page | Route | Protected | Description |
+|------|-------|-----------|-------------|
+| Landing | `/` | ❌ | Marketing page |
+| Login | `/login` | ❌ | User login |
+| Register | `/register` | ❌ | User registration |
+| Dashboard | `/dashboard` | ✅ | Analytics & overview |
+| Clients | `/clients` | ✅ | Client management |
+| New Invoice | `/invoices/new` | ✅ | Create invoice |
+| Invoices | `/invoices` | ✅ | View & manage invoices |
+| Invoice Details | `/invoices/:id` | ✅ | Invoice details |
+| Settings | `/settings` | ✅ | Profile & preferences |
+| Portal | `/portal/:token` | ❌ | Client invoice view |
+
+---
+
+## 🎨 Design Features
+
+### **Color Palette**
+- 🎨 **Dark Theme**: `#0a0f14` (background), `#e7eefc` (text)
+- ✨ **Accent Green**: `#b7ff3c` (primary), `#9bff12` (bright)
+- ⚠️ **Danger Red**: `#ff5d5d` (errors)
+- 🌫️ **Muted**: `#93a0b8` (secondary text)
+
+### **Animations**
+- ✨ **Fade-in** - Elements reveal on mount
+- 🎭 **Hover effects** - Interactive buttons & cards
+- 🌊 **Wave animations** - Background orbs
+- 📊 **Chart animations** - Smooth data visualizations
+- 🔄 **Loading spinners** - Smooth rotation
+
+### **Responsive Design**
+- 📱 **Mobile**: Touch-friendly, single column
+- 📱 **Tablet**: 2-3 column grid
+- 🖥️ **Desktop**: Full feature set with sidebars
+
+---
+
+## 📦 Project Structure
+
+```
+billify/
+├── client/                    # React frontend
+│   ├── src/
+│   │   ├── components/        # Reusable UI components
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── Sidebar.jsx
+│   │   │   ├── InvoiceTable.jsx
+│   │   │   ├── StatCard.jsx
+│   │   │   ├── ClientCard.jsx
+│   │   │   ├── ConfirmModal.jsx
+│   │   │   └── LoadingState.jsx
+│   │   ├── pages/             # Page components
+│   │   │   ├── Landing.jsx
+│   │   │   ├── Login.jsx
+│   │   │   ├── Register.jsx
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── Clients.jsx
+│   │   │   ├── NewInvoice.jsx
+│   │   │   ├── Invoices.jsx
+│   │   │   ├── InvoiceDetails.jsx
+│   │   │   ├── Settings.jsx
+│   │   │   └── Portal.jsx
+│   │   ├── context/           # React context
+│   │   │   ├── AuthContext.jsx
+│   │   │   └── useAuth.js
+│   │   ├── api/               # API calls
+│   │   │   ├── axios.js       # Axios instance
+│   │   │   ├── authApi.js
+│   │   │   ├── clientApi.js
+│   │   │   ├── invoiceApi.js
+│   │   │   └── aiApi.js
+│   │   ├── utils/             # Utilities
+│   │   │   ├── formatDate.js
+│   │   │   ├── formatCurrency.js
+│   │   │   ├── gstHelpers.js
+│   │   │   └── usePageTitle.js
+│   │   ├── index.css          # Tailwind styles
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   └── vite.config.js
+│
+├── server/                    # Express backend
+│   ├── controllers/           # Route handlers
+│   │   ├── authController.js
+│   │   ├── clientController.js
+│   │   ├── invoiceController.js
+│   │   ├── pdfController.js
+│   │   ├── emailController.js
+│   │   ├── aiController.js
+│   │   └── portalController.js
+│   ├── models/                # MongoDB schemas
+│   │   ├── User.js
+│   │   ├── Client.js
+│   │   └── Invoice.js
+│   ├── routes/                # API routes
+│   │   ├── auth.js
+│   │   ├── clients.js
+│   │   ├── invoices.js
+│   │   ├── pdf.js
+│   │   ├── email.js
+│   │   ├── ai.js
+│   │   └── portal.js
+│   ├── middleware/            # Express middleware
+│   │   ├── authMiddleware.js
+│   │   └── upload.js
+│   ├── config/                # Configuration
+│   │   └── db.js
+│   ├── utils/                 # Utilities
+│   │   ├── generatePDF.js
+│   │   ├── sendEmail.js
+│   │   └── groq.js
+│   ├── uploads/               # Temp file storage
+│   ├── server.js              # Entry point
+│   └── package.json
+│
+├── README.md
+├── .env.example
+└── .gitignore
+```
+
+---
+
+## 🔐 Security Features
+
+✅ **JWT Authentication** - Secure token-based auth  
+✅ **Password Hashing** - Bcryptjs with salt rounds  
+✅ **CORS Protection** - Whitelist allowed origins  
+✅ **Protected Routes** - Middleware auth checks  
+✅ **Secure Tokens** - Limited expiry times  
+✅ **Environment Variables** - No hardcoded secrets  
+✅ **Multer File Validation** - Image-only uploads  
+✅ **Input Validation** - Mongoose schema validation  
+
+---
+
+## 🎯 Key Highlights
+
+### **For Freelancers** 🎨
+- ⚡ **Quick invoicing** - Create invoices in 2 minutes
+- 🎯 **GST compliant** - Automatic tax calculations
+- 📊 **Financial insights** - Real-time revenue tracking
+- 💳 **Payment reminders** - Never miss a payment
+- 📱 **Mobile-friendly** - Invoice on the go
+
+### **For Agencies** 🏢
+- 👥 **Client management** - Centralized directory
+- 📧 **Bulk operations** - Send multiple invoices
+- 📈 **Analytics dashboard** - Revenue forecasting
+- 🎨 **Branded invoices** - Your logo & colors
+- 🤖 **AI automation** - Smart reminders
+
+### **Developer Features** 👨‍💻
+- 🏗️ **Clean architecture** - Modular, scalable code
+- 📚 **Well-documented** - Clear API documentation
+- 🧪 **Production-ready** - Error handling & logging
+- ⚡ **Fast performance** - Optimized queries & caching
+- 🔄 **Easy deployment** - Docker-ready structure
+
+---
+
+## 📞 Support & Contribution
+
+For issues, feature requests, or contributions, please open an issue or pull request on GitHub.
+
+---
+
+## 📜 License
+
+This project is licensed under the ISC License - see the LICENSE file for details.
+
+---
+
+**Built with ❤️ for Indian Freelancers**
+
+🌟 If you find this helpful, please give it a star!
+
 import { generateReminder } from "./api/aiApi";
 import { sendInvoiceEmail } from "./api/invoiceApi";
 
