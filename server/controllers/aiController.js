@@ -1,5 +1,5 @@
 const Invoice = require("../models/Invoice");
-const sendInvoiceEmail = require("../utils/sendEmail");
+const { sendInvoiceEmail } = require("../services/emailService");
 const { generateWithGroq } = require("../utils/groq");
 
 const ALLOWED_TONES = ["friendly", "professional", "strict"];
@@ -99,13 +99,24 @@ const generatePaymentReminder = async (req, res) => {
     const subject = `Payment reminder: ${invoice.invoiceNumber}`;
 
     if (sendNow) {
-      await sendInvoiceEmail({
-        to: invoice.client.email,
-        freelancerName: req.user.name,
+      const result = await sendInvoiceEmail(invoice.client.email, null, {
         invoiceNumber: invoice.invoiceNumber,
+        clientName: invoice.client?.name,
+        issueDate: invoice.issueDate,
+        dueDate: invoice.dueDate,
+        total: invoice.total,
+        senderName: req.user?.name,
         subject,
-        text: generatedMessage,
+        message: generatedMessage,
+        allowNoAttachment: true,
       });
+
+      if (!result.success) {
+        return res.status(500).json({
+          message: "Could not send AI reminder",
+          error: result.error,
+        });
+      }
 
       return res.status(200).json({
         message: "AI reminder generated and sent",

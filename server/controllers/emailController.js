@@ -1,6 +1,6 @@
 const Invoice = require("../models/Invoice");
 const generatePDF = require("../utils/generatePDF");
-const sendInvoiceEmail = require("../utils/sendEmail");
+const { sendInvoiceEmail } = require("../services/emailService");
 
 const emailInvoice = async (req, res) => {
   try {
@@ -16,19 +16,37 @@ const emailInvoice = async (req, res) => {
 
     const pdfBuffer = includePdf ? await generatePDF(invoice, req.user) : null;
 
-    await sendInvoiceEmail({
-      to: invoice.client.email,
-      freelancerName: req.user.name,
+    const result = await sendInvoiceEmail(invoice.client?.email, null, {
       invoiceNumber: invoice.invoiceNumber,
-      pdfBuffer,
+      clientName: invoice.client?.name,
+      issueDate: invoice.issueDate,
+      dueDate: invoice.dueDate,
+      total: invoice.total,
+      senderName: req.user?.name,
+      message: customMessage || undefined,
       subject: customSubject || undefined,
-      text: customMessage || undefined,
-      includeAttachment: includePdf,
+      pdfBuffer,
+      allowNoAttachment: !includePdf,
     });
 
-    return res.status(200).json({ message: "Invoice email sent successfully" });
+    if (!result.success) {
+      return res.status(500).json({
+        success: false,
+        message: "Could not send invoice email",
+        error: result.error,
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Invoice email sent successfully",
+    });
   } catch (error) {
-    return res.status(500).json({ message: "Could not send invoice email", error: error.message });
+    return res.status(500).json({
+      success: false,
+      message: "Could not send invoice email",
+      error: error.message,
+    });
   }
 };
 
